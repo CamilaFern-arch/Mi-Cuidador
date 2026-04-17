@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Compañero del Día</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crema: #FDF6EC;
+    --terracota: #C1694F;
+    --terracota-suave: #E8937B;
+    --verde: #5C8A6E;
+    --verde-claro: #A8C5B5;
+    --azul: #4A7FA5;
+    --azul-claro: #A8C9E0;
+    --dorado: #D4A843;
+    --texto: #3A2E2A;
+    --gris: #8A7E78;
+    --blanco: #FFFFFF;
+    --sombra: 0 4px 20px rgba(58,46,42,0.12);
+    --radio: 20px;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+font-family: ‘Nunito’, sans-serif;
+background: var(–crema);
+color: var(–texto);
+min-height: 100vh;
+font-size: 18px;
+}
+
+/* HEADER */
+header {
+background: linear-gradient(135deg, var(–terracota) 0%, var(–dorado) 100%);
+padding: 20px 24px 16px;
+color: white;
+position: sticky;
+top: 0;
+z-index: 100;
+box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+}
+
+.header-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 8px;
+}
+
+.logo {
+font-family: ‘Playfair Display’, serif;
+font-size: 22px;
+font-weight: 700;
+}
+
+.logo span { font-size: 28px; }
+
+#reloj {
+font-size: 28px;
+font-weight: 700;
+letter-spacing: 2px;
+}
+
+#fecha-hoy {
+font-size: 15px;
+opacity: 0.9;
+text-align: center;
+letter-spacing: 0.5px;
+}
+
+/* NAV */
+nav {
+display: flex;
+gap: 8px;
+padding: 14px 16px;
+background: white;
+overflow-x: auto;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+position: sticky;
+top: 105px;
+z-index: 99;
+}
+
+nav::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+flex-shrink: 0;
+padding: 10px 18px;
+border: none;
+border-radius: 50px;
+background: var(–crema);
+color: var(–gris);
+font-family: ‘Nunito’, sans-serif;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.25s;
+white-space: nowrap;
+}
+
+.nav-btn.activo {
+background: var(–terracota);
+color: white;
+box-shadow: 0 3px 10px rgba(193,105,79,0.35);
+}
+
+/* SECCIONES */
+.seccion {
+display: none;
+padding: 20px 16px;
+max-width: 600px;
+margin: 0 auto;
+}
+
+.seccion.activa { display: block; }
+
+.titulo-seccion {
+font-family: ‘Playfair Display’, serif;
+font-size: 24px;
+color: var(–terracota);
+margin-bottom: 18px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+/* TARJETAS */
+.tarjeta {
+background: white;
+border-radius: var(–radio);
+padding: 20px;
+margin-bottom: 16px;
+box-shadow: var(–sombra);
+border-left: 5px solid var(–terracota-suave);
+}
+
+.tarjeta.verde { border-left-color: var(–verde); }
+.tarjeta.azul { border-left-color: var(–azul); }
+.tarjeta.dorado { border-left-color: var(–dorado); }
+
+.tarjeta h3 {
+font-family: ‘Playfair Display’, serif;
+font-size: 19px;
+margin-bottom: 12px;
+color: var(–texto);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+/* BOTONES */
+.btn {
+padding: 12px 22px;
+border: none;
+border-radius: 50px;
+font-family: ‘Nunito’, sans-serif;
+font-size: 16px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.btn-primario {
+background: var(–terracota);
+color: white;
+box-shadow: 0 3px 12px rgba(193,105,79,0.35);
+}
+
+.btn-primario:hover { background: #a85840; transform: translateY(-1px); }
+
+.btn-verde {
+background: var(–verde);
+color: white;
+box-shadow: 0 3px 12px rgba(92,138,110,0.35);
+}
+
+.btn-azul {
+background: var(–azul);
+color: white;
+box-shadow: 0 3px 12px rgba(74,127,165,0.35);
+}
+
+.btn-dorado {
+background: var(–dorado);
+color: white;
+box-shadow: 0 3px 12px rgba(212,168,67,0.35);
+}
+
+.btn-sm {
+padding: 8px 16px;
+font-size: 14px;
+}
+
+.btn-outline {
+background: transparent;
+border: 2px solid var(–terracota);
+color: var(–terracota);
+}
+
+/* INPUT */
+input[type=“text”], input[type=“time”], select, textarea {
+width: 100%;
+padding: 12px 16px;
+border: 2px solid #E8E0DA;
+border-radius: 12px;
+font-family: ‘Nunito’, sans-serif;
+font-size: 16px;
+color: var(–texto);
+background: white;
+margin-bottom: 10px;
+outline: none;
+transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+border-color: var(–terracota);
+}
+
+label {
+font-weight: 600;
+font-size: 15px;
+color: var(–gris);
+display: block;
+margin-bottom: 5px;
+}
+
+/* HORARIO */
+.franja-hora {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px 18px;
+background: white;
+border-radius: 14px;
+margin-bottom: 10px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+border-left: 4px solid var(–verde-claro);
+transition: all 0.2s;
+cursor: pointer;
+}
+
+.franja-hora.completada {
+background: #F0F8F4;
+border-left-color: var(–verde);
+opacity: 0.75;
+}
+
+.franja-hora .hora-badge {
+background: var(–verde-claro);
+color: var(–verde);
+padding: 4px 10px;
+border-radius: 8px;
+font-size: 14px;
+font-weight: 700;
+flex-shrink: 0;
+}
+
+.franja-hora .actividad {
+flex: 1;
+font-size: 16px;
+}
+
+.franja-hora .check-btn {
+width: 34px;
+height: 34px;
+border-radius: 50%;
+border: 2px solid var(–verde-claro);
+background: transparent;
+cursor: pointer;
+font-size: 16px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+flex-shrink: 0;
+}
+
+.franja-hora.completada .check-btn {
+background: var(–verde);
+border-color: var(–verde);
+color: white;
+}
+
+/* MEMORIA */
+.juego-contenedor {
+text-align: center;
+padding: 10px 0;
+}
+
+.palabra-grande {
+font-family: ‘Playfair Display’, serif;
+font-size: 48px;
+color: var(–terracota);
+margin: 20px 0;
+line-height: 1;
+}
+
+.pistas-lista {
+text-align: left;
+margin: 10px 0;
+}
+
+.pista-item {
+display: flex;
+align-items: flex-start;
+gap: 10px;
+padding: 10px 0;
+border-bottom: 1px solid #F0EAE4;
+font-size: 16px;
+line-height: 1.4;
+}
+
+.numero-pista {
+background: var(–azul-claro);
+color: var(–azul);
+width: 26px;
+height: 26px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 13px;
+font-weight: 700;
+flex-shrink: 0;
+}
+
+.respuesta-input {
+display: flex;
+gap: 10px;
+margin-top: 14px;
+}
+
+.respuesta-input input {
+flex: 1;
+margin: 0;
+}
+
+.resultado-juego {
+padding: 14px;
+border-radius: 12px;
+font-size: 17px;
+font-weight: 600;
+text-align: center;
+margin-top: 12px;
+}
+
+.resultado-bien { background: #E8F5EE; color: var(–verde); }
+.resultado-mal { background: #FEF0EC; color: var(–terracota); }
+.resultado-oculto { display: none; }
+
+/* EJERCICIOS */
+.ejercicio-card {
+background: linear-gradient(135deg, #E8F5EE 0%, white 100%);
+border-radius: 16px;
+padding: 20px;
+margin-bottom: 14px;
+border: 1.5px solid var(–verde-claro);
+position: relative;
+}
+
+.ejercicio-card h4 {
+font-family: ‘Playfair Display’, serif;
+font-size: 18px;
+color: var(–verde);
+margin-bottom: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.ejercicio-card p {
+font-size: 15px;
+line-height: 1.6;
+color: var(–gris);
+}
+
+.duracion-badge {
+position: absolute;
+top: 14px;
+right: 14px;
+background: var(–verde);
+color: white;
+padding: 3px 10px;
+border-radius: 8px;
+font-size: 13px;
+font-weight: 700;
+}
+
+/* AGENDA */
+.contacto-item {
+display: flex;
+align-items: center;
+gap: 14px;
+padding: 14px 18px;
+background: white;
+border-radius: 14px;
+margin-bottom: 10px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.contacto-item:hover {
+box-shadow: var(–sombra);
+transform: translateY(-1px);
+}
+
+.avatar {
+width: 48px;
+height: 48px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 22px;
+flex-shrink: 0;
+}
+
+.avatar.familia { background: #FEF0EC; }
+.avatar.medico { background: #E8F5EE; }
+.avatar.amigo { background: #EBF2F9; }
+
+.contacto-info { flex: 1; }
+.contacto-nombre {
+font-weight: 700;
+font-size: 17px;
+margin-bottom: 2px;
+}
+.contacto-relacion {
+font-size: 13px;
+color: var(–gris);
+}
+.contacto-tel {
+font-size: 16px;
+color: var(–azul);
+font-weight: 700;
+}
+
+/* FORMULARIO MODAL */
+.modal-overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.45);
+z-index: 200;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+
+.modal-overlay.abierto { display: flex; }
+
+.modal {
+background: white;
+border-radius: 24px;
+padding: 28px 24px;
+width: 100%;
+max-width: 420px;
+max-height: 90vh;
+overflow-y: auto;
+}
+
+.modal h3 {
+font-family: ‘Playfair Display’, serif;
+font-size: 20px;
+color: var(–terracota);
+margin-bottom: 18px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.modal-btns {
+display: flex;
+gap: 10px;
+margin-top: 16px;
+}
+
+/* ÁNIMO */
+.animo-grid {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+gap: 10px;
+margin-bottom: 20px;
+}
+
+.animo-btn {
+aspect-ratio: 1;
+border: none;
+border-radius: 16px;
+background: var(–crema);
+font-size: 30px;
+cursor: pointer;
+transition: all 0.2s;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 4px;
+}
+
+.animo-btn span.label {
+font-size: 11px;
+font-family: ‘Nunito’, sans-serif;
+font-weight: 600;
+color: var(–gris);
+}
+
+.animo-btn.seleccionado {
+transform: scale(1.15);
+box-shadow: var(–sombra);
+background: white;
+}
+
+.historial-animo {
+display: flex;
+flex-direction: column;
+gap: 8px;
+margin-top: 16px;
+}
+
+.animo-registro {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 10px 14px;
+background: var(–crema);
+border-radius: 12px;
+font-size: 15px;
+}
+
+/* PROGRESO DIARIO */
+.progreso-bar {
+background: #EDE8E4;
+border-radius: 50px;
+height: 14px;
+overflow: hidden;
+margin: 8px 0 4px;
+}
+
+.progreso-fill {
+height: 100%;
+border-radius: 50px;
+background: linear-gradient(90deg, var(–verde) 0%, var(–dorado) 100%);
+transition: width 0.5s ease;
+}
+
+.progreso-texto {
+font-size: 13px;
+color: var(–gris);
+text-align: right;
+}
+
+/* FRASES */
+.frase-dia {
+background: linear-gradient(135deg, var(–terracota) 0%, var(–dorado) 100%);
+color: white;
+border-radius: 20px;
+padding: 24px 22px;
+margin-bottom: 20px;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+.frase-dia::before {
+content: ‘”’;
+position: absolute;
+top: -10px;
+left: 16px;
+font-family: ‘Playfair Display’, serif;
+font-size: 80px;
+opacity: 0.2;
+}
+
+.frase-dia p {
+font-family: ‘Playfair Display’, serif;
+font-size: 18px;
+line-height: 1.5;
+position: relative;
+z-index: 1;
+}
+
+.frase-dia .autor {
+font-size: 13px;
+opacity: 0.8;
+margin-top: 8px;
+font-style: italic;
+}
+
+/* TEMPORIZADOR */
+#timer-display {
+font-family: ‘Playfair Display’, serif;
+font-size: 52px;
+color: var(–verde);
+text-align: center;
+margin: 20px 0;
+letter-spacing: 2px;
+}
+
+.timer-btns {
+display: flex;
+gap: 10px;
+justify-content: center;
+}
+
+/* COSTUMBRES */
+.costumbre-item {
+display: flex;
+align-items: center;
+gap: 12px;
+padding: 14px 16px;
+background: white;
+border-radius: 14px;
+margin-bottom: 10px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.costumbre-icon {
+font-size: 28px;
+width: 48px;
+text-align: center;
+}
+
+.costumbre-info { flex: 1; }
+.costumbre-nombre { font-weight: 700; font-size: 16px; }
+.costumbre-hora { font-size: 13px; color: var(–gris); }
+
+.costumbre-check {
+width: 36px;
+height: 36px;
+border-radius: 50%;
+border: 2px solid var(–dorado);
+background: transparent;
+cursor: pointer;
+font-size: 18px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+}
+
+.costumbre-check.hecho {
+background: var(–dorado);
+border-color: var(–dorado);
+color: white;
+}
+
+/* UTILIDADES */
+.fila { display: flex; gap: 10px; align-items: center; }
+.fila-entre { display: flex; justify-content: space-between; align-items: center; }
+.mt8 { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+.mb8 { margin-bottom: 8px; }
+.texto-gris { color: var(–gris); font-size: 15px; }
+.divider { height: 1px; background: #F0EAE4; margin: 16px 0; }
+
+/* GRID INICIO */
+.inicio-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-bottom: 16px;
+}
+
+.mini-card {
+background: white;
+border-radius: 16px;
+padding: 16px;
+box-shadow: var(–sombra);
+text-align: center;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.mini-card:hover { transform: translateY(-2px); }
+.mini-card .icono { font-size: 36px; margin-bottom: 8px; }
+.mini-card .nombre { font-size: 14px; font-weight: 700; color: var(–texto); }
+
+/* ALERTAS */
+.alerta {
+padding: 14px 18px;
+border-radius: 12px;
+font-size: 15px;
+margin-bottom: 12px;
+display: flex;
+align-items: flex-start;
+gap: 10px;
+}
+.alerta-info { background: #EBF2F9; color: var(–azul); }
+.alerta-exito { background: #E8F5EE; color: var(–verde); }
+
+/* QUIZ DE RECUERDOS */
+.opcion-btn {
+width: 100%;
+padding: 14px;
+border: 2px solid #E8E0DA;
+border-radius: 12px;
+background: white;
+font-family: ‘Nunito’, sans-serif;
+font-size: 16px;
+cursor: pointer;
+transition: all 0.2s;
+margin-bottom: 8px;
+text-align: left;
+}
+.opcion-btn:hover { border-color: var(–azul); }
+.opcion-btn.correcta { border-color: var(–verde); background: #E8F5EE; }
+.opcion-btn.incorrecta { border-color: var(–terracota); background: #FEF0EC; }
+
+@keyframes aparecer {
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.seccion.activa { animation: aparecer 0.3s ease; }
+
+@media (max-width: 400px) {
+.inicio-grid { grid-template-columns: 1fr 1fr; }
+.animo-grid { gap: 6px; }
+.palabra-grande { font-size: 38px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+
+<header>
+  <div class="header-top">
+    <div class="logo"><span>🌻</span> Mi Compañero</div>
+    <div id="reloj">--:--</div>
+  </div>
+  <div id="fecha-hoy">Cargando fecha...</div>
+</header>
+
+<!-- NAVEGACIÓN -->
+
+<nav>
+  <button class="nav-btn activo" onclick="ir('inicio')">🏠 Inicio</button>
+  <button class="nav-btn" onclick="ir('horario')">🗓 Mi Día</button>
+  <button class="nav-btn" onclick="ir('memoria')">🧠 Memoria</button>
+  <button class="nav-btn" onclick="ir('ejercicios')">🤸 Ejercicios</button>
+  <button class="nav-btn" onclick="ir('agenda')">📞 Contactos</button>
+  <button class="nav-btn" onclick="ir('costumbres')">⭐ Mis Costumbres</button>
+  <button class="nav-btn" onclick="ir('animo')">💛 Mi Ánimo</button>
+</nav>
+
+<!-- ===== INICIO ===== -->
+
+<div class="seccion activa" id="sec-inicio">
+  <div class="frase-dia" id="frase-contenedor">
+    <p id="frase-texto">Cargando frase del día...</p>
+    <div class="autor" id="frase-autor"></div>
+  </div>
+
+  <div class="tarjeta dorado">
+    <h3>📊 Tu progreso de hoy</h3>
+    <div class="progreso-bar">
+      <div class="progreso-fill" id="barra-progreso" style="width:0%"></div>
+    </div>
+    <div class="progreso-texto" id="texto-progreso">0 de 0 actividades completadas</div>
+  </div>
+
+  <div class="titulo-seccion" style="margin-bottom:12px;">Accesos rápidos</div>
+  <div class="inicio-grid">
+    <div class="mini-card" onclick="ir('horario')">
+      <div class="icono">🗓</div>
+      <div class="nombre">Mi Día</div>
+    </div>
+    <div class="mini-card" onclick="ir('memoria')">
+      <div class="icono">🧠</div>
+      <div class="nombre">Memoria</div>
+    </div>
+    <div class="mini-card" onclick="ir('ejercicios')">
+      <div class="icono">🤸</div>
+      <div class="nombre">Ejercicios</div>
+    </div>
+    <div class="mini-card" onclick="ir('agenda')">
+      <div class="icono">📞</div>
+      <div class="nombre">Contactos</div>
+    </div>
+    <div class="mini-card" onclick="ir('costumbres')">
+      <div class="icono">⭐</div>
+      <div class="nombre">Costumbres</div>
+    </div>
+    <div class="mini-card" onclick="ir('animo')">
+      <div class="icono">💛</div>
+      <div class="nombre">Mi Ánimo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HORARIO ===== -->
+
+<div class="seccion" id="sec-horario">
+  <div class="titulo-seccion">🗓 Mi Día</div>
+
+  <div class="tarjeta azul">
+    <h3>➕ Añadir actividad</h3>
+    <label>Hora</label>
+    <input type="time" id="hora-act" value="08:00">
+    <label>Actividad</label>
+    <input type="text" id="nombre-act" placeholder="Ej: Desayuno, Paseo, Lectura...">
+    <label>Categoría</label>
+    <select id="cat-act">
+      <option value="🍽️">🍽️ Comida</option>
+      <option value="🚶">🚶 Movimiento</option>
+      <option value="💊">💊 Medicación</option>
+      <option value="😴">😴 Descanso</option>
+      <option value="📖">📖 Ocio</option>
+      <option value="👥">👥 Social</option>
+      <option value="🏥">🏥 Médico</option>
+      <option value="🧹">🧹 Hogar</option>
+    </select>
+    <button class="btn btn-azul" onclick="agregarActividad()">Añadir al horario</button>
+  </div>
+
+  <div id="lista-horario">
+    <!-- actividades aquí -->
+  </div>
+</div>
+
+<!-- ===== MEMORIA ===== -->
+
+<div class="seccion" id="sec-memoria">
+  <div class="titulo-seccion">🧠 Ejercicios de Memoria</div>
+
+  <!-- TABS MEMORIA -->
+
+  <div class="fila mb8">
+    <button class="btn btn-sm btn-primario" onclick="tabMemoria('palabras')">🔤 Palabras</button>
+    <button class="btn btn-sm btn-outline" onclick="tabMemoria('quiz')">❓ Quiz</button>
+    <button class="btn btn-sm btn-outline" onclick="tabMemoria('numeros')">🔢 Números</button>
+    <button class="btn btn-sm btn-outline" onclick="tabMemoria('notas')">📝 Mis Notas</button>
+  </div>
+
+  <!-- PALABRAS -->
+
+  <div id="mem-palabras">
+    <div class="tarjeta">
+      <h3>🔤 Recuerda esta palabra</h3>
+      <div class="juego-contenedor">
+        <div class="palabra-grande" id="palabra-actual">---</div>
+        <div class="pistas-lista" id="pistas-container"></div>
+        <div class="mt12">
+          <p class="texto-gris mb8">¿Puedes definir o usar esta palabra en una frase?</p>
+          <textarea id="respuesta-palabra" placeholder="Escribe algo sobre esta palabra..." style="min-height:80px; margin-bottom:8px;"></textarea>
+          <div class="fila">
+            <button class="btn btn-primario" onclick="verificarPalabra()">Comprobar</button>
+            <button class="btn btn-outline" onclick="nuevaPalabra()">Nueva palabra</button>
+          </div>
+        </div>
+        <div class="resultado-juego resultado-oculto" id="resultado-palabra"></div>
+      </div>
+    </div>
+
+```
+<div class="tarjeta verde">
+  <h3>🏆 Tu vocabulario guardado</h3>
+  <div id="palabras-guardadas" class="texto-gris">Aún no has guardado palabras. ¡Practica y ve guardando tus favoritas!</div>
+</div>
+```
+
+  </div>
+
+  <!-- QUIZ -->
+
+  <div id="mem-quiz" style="display:none">
+    <div class="tarjeta">
+      <h3>❓ <span id="quiz-titulo">Quiz del día</span></h3>
+      <p class="texto-gris mb8" id="quiz-categoria"></p>
+      <div class="juego-contenedor">
+        <div style="font-size:18px; font-weight:600; color:var(--texto); margin-bottom:16px; line-height:1.4;" id="quiz-pregunta">Cargando pregunta...</div>
+        <div id="quiz-opciones"></div>
+        <div class="resultado-juego resultado-oculto" id="resultado-quiz"></div>
+        <div class="mt16">
+          <button class="btn btn-azul" onclick="nuevaPreguntaQuiz()">Siguiente pregunta ▶</button>
+        </div>
+      </div>
+    </div>
+    <div class="tarjeta azul">
+      <h3>📊 Resultados de hoy</h3>
+      <div class="fila-entre">
+        <span>Correctas:</span><strong id="quiz-correctas" style="color:var(--verde)">0</strong>
+      </div>
+      <div class="fila-entre mt8">
+        <span>Incorrectas:</span><strong id="quiz-incorrectas" style="color:var(--terracota)">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- NÚMEROS -->
+
+  <div id="mem-numeros" style="display:none">
+    <div class="tarjeta">
+      <h3>🔢 Memoriza el número</h3>
+      <div class="juego-contenedor">
+        <div id="num-mostrar">
+          <div class="palabra-grande" id="numero-actual" style="letter-spacing:6px; color:var(--azul)">---</div>
+          <p class="texto-gris">Memoriza este número. Tienes <strong id="num-segundos">5</strong> segundos.</p>
+          <button class="btn btn-azul" onclick="iniciarJuegoNumeros()">¡Empezar!</button>
+        </div>
+        <div id="num-responder" style="display:none">
+          <p style="font-size:18px; margin-bottom:12px;">¿Cuál era el número?</p>
+          <div class="respuesta-input">
+            <input type="text" id="respuesta-numero" placeholder="Escribe el número..." style="margin:0; font-size:20px; font-weight:700; text-align:center;">
+            <button class="btn btn-azul" onclick="verificarNumero()">✓</button>
+          </div>
+          <div class="resultado-juego resultado-oculto mt12" id="resultado-numero"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tarjeta azul">
+      <h3>⚙️ Dificultad</h3>
+      <div class="fila">
+        <button class="btn btn-sm btn-azul" onclick="setDificultad(3)">Fácil (3 dígitos)</button>
+        <button class="btn btn-sm btn-outline" onclick="setDificultad(5)">Medio (5)</button>
+        <button class="btn btn-sm btn-outline" onclick="setDificultad(7)">Difícil (7)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTAS -->
+
+  <div id="mem-notas" style="display:none">
+    <div class="tarjeta verde">
+      <h3>📝 Cosas importantes que recordar</h3>
+      <input type="text" id="nota-titulo" placeholder="Título (ej: Cumpleaños de Ana)">
+      <textarea id="nota-contenido" placeholder="Escribe aquí lo que quieres recordar..." style="min-height:80px;"></textarea>
+      <button class="btn btn-verde" onclick="guardarNota()">Guardar nota</button>
+    </div>
+    <div id="lista-notas"></div>
+  </div>
+</div>
+
+<!-- ===== EJERCICIOS ===== -->
+
+<div class="seccion" id="sec-ejercicios">
+  <div class="titulo-seccion">🤸 Ejercicios del Día</div>
+
+  <div class="alerta alerta-info">
+    💡 Estos ejercicios son suaves y seguros. Si tienes dolor, para y descansa. Consulta a tu médico si tienes dudas.
+  </div>
+
+  <!-- TABS EJERCICIO -->
+
+  <div class="fila mb8" style="flex-wrap:wrap; gap:8px;">
+    <button class="btn btn-sm btn-verde" onclick="tabEjercicio('estiramientos')">🧘 Estiramientos</button>
+    <button class="btn btn-sm btn-outline" onclick="tabEjercicio('respiracion')">🌬️ Respiración</button>
+    <button class="btn btn-sm btn-outline" onclick="tabEjercicio('movimiento')">🚶 Movimiento</button>
+    <button class="btn btn-sm btn-outline" onclick="tabEjercicio('cerebro')">🧠 Mente activa</button>
+  </div>
+
+  <!-- ESTIRAMIENTOS -->
+
+  <div id="ej-estiramientos">
+    <div class="ejercicio-card">
+      <div class="duracion-badge">1 min</div>
+      <h4>🙆 Estiramiento de cuello</h4>
+      <p>Sentado con la espalda recta, inclina suavemente la cabeza hacia la derecha, mantén 15 segundos. Repite hacia la izquierda. Haz 3 veces cada lado. Mueve despacio, sin forzar.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">2 min</div>
+      <h4>🙌 Círculos de hombros</h4>
+      <p>Sentado o de pie, levanta los hombros hacia las orejas, lleva hacia atrás, baja y relaja. Haz 10 círculos hacia atrás y 10 hacia adelante. Respira profundo durante el ejercicio.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">2 min</div>
+      <h4>🦵 Estiramiento de piernas</h4>
+      <p>Sentado en una silla, extiende una pierna hasta que quede horizontal. Mantén 10 segundos. Baja despacio. Repite 5 veces por cada pierna. Ayuda a mantener la fuerza en los muslos.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">1 min</div>
+      <h4>👐 Estiramiento de manos</h4>
+      <p>Abre los dedos todo lo que puedas, mantén 5 segundos. Cierra el puño suavemente, mantén 5 segundos. Repite 10 veces. Excelente para quienes tienen dolor en las manos.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">1 min</div>
+      <h4>🔄 Giro de tobillos</h4>
+      <p>Sentado, levanta un pie del suelo y gira el tobillo 10 veces hacia la derecha y 10 hacia la izquierda. Cambia de pie. Mejora la circulación y la estabilidad.</p>
+    </div>
+  </div>
+
+  <!-- RESPIRACIÓN -->
+
+  <div id="ej-respiracion" style="display:none">
+    <div class="ejercicio-card">
+      <h4>🌬️ Respiración 4-7-8</h4>
+      <p><strong>Inhala</strong> por la nariz 4 segundos → <strong>Aguanta</strong> 7 segundos → <strong>Exhala</strong> por la boca 8 segundos. Repite 4 veces. Relaja y reduce la ansiedad.</p>
+    </div>
+
+```
+<div class="tarjeta verde" style="border-left-color: var(--verde);">
+  <h3>⏱ Temporizador de respiración</h3>
+  <div id="timer-display">0:00</div>
+  <div id="guia-respiracion" style="text-align:center; font-size:20px; font-weight:700; color:var(--verde); min-height:30px;"></div>
+  <div class="timer-btns mt16">
+    <button class="btn btn-verde" onclick="iniciarRespiracion()">▶ Iniciar</button>
+    <button class="btn btn-outline" onclick="pararRespiracion()">⏹ Parar</button>
+  </div>
+</div>
+
+<div class="ejercicio-card">
+  <h4>🧘 Respiración abdominal</h4>
+  <p>Coloca una mano en el pecho y otra en la barriga. Inhala por la nariz, sintiendo cómo se eleva la barriga (no el pecho). Exhala despacio por la boca. Repite 10 veces. Ideal para después de comer.</p>
+</div>
+<div class="ejercicio-card">
+  <h4>😌 Respiración relajante</h4>
+  <p>Cierra los ojos. Inhala 3 segundos pensando en algo bello. Exhala 5 segundos soltando toda la tensión. Haz 8 respiraciones. Puedes hacer esto en la cama antes de dormir.</p>
+</div>
+```
+
+  </div>
+
+  <!-- MOVIMIENTO -->
+
+  <div id="ej-movimiento" style="display:none">
+    <div class="ejercicio-card">
+      <div class="duracion-badge">5 min</div>
+      <h4>🚶 Paseo por casa</h4>
+      <p>Camina de una habitación a otra durante 5 minutos. Si tienes jardín o terraza, mejor. Mantén la espalda recta, da pasos firmes. El movimiento diario es fundamental.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">2 min</div>
+      <h4>🪑 Levantarse y sentarse</h4>
+      <p>Desde una silla, levántate usando los brazos si lo necesitas. Siéntate despacio. Repite 10 veces. Este es uno de los ejercicios más importantes para mantener la independencia.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">3 min</div>
+      <h4>🦶 Equilibrio con apoyo</h4>
+      <p>Apoyando las manos en una mesa o silla, levanta un pie 5 cm del suelo, mantén 10 segundos. Cambia de pie. Repite 5 veces cada uno. Mejora el equilibrio y previene caídas.</p>
+    </div>
+    <div class="ejercicio-card">
+      <div class="duracion-badge">2 min</div>
+      <h4>💪 Fortalece los brazos</h4>
+      <p>Con botellas de agua como pesas, levanta los brazos hacia los lados hasta la altura del hombro, baja despacio. Repite 12 veces. Descansa 30 segundos. Haz 2 series.</p>
+    </div>
+  </div>
+
+  <!-- MENTE ACTIVA -->
+
+  <div id="ej-cerebro" style="display:none">
+    <div class="ejercicio-card">
+      <h4>🔢 El número 7</h4>
+      <p>Cuenta hacia atrás desde 100 restando 7 cada vez: 100, 93, 86... Intenta llegar hasta 2. Si te equivocas, empieza de nuevo. Desafía tu mente cada día.</p>
+    </div>
+    <div class="ejercicio-card">
+      <h4>🗓 Recordar el día</h4>
+      <p>Piensa en todo lo que has hecho hoy, en orden cronológico. ¿A qué hora te levantaste? ¿Qué desayunaste? ¿Con quién hablaste? Reconstruir el día fortalece la memoria episódica.</p>
+    </div>
+    <div class="ejercicio-card">
+      <h4>📝 Escribir una carta</h4>
+      <p>Escribe una carta o mensaje a alguien que quieras: un hijo, un amigo, un familiar. Cuéntale cómo estás, qué has hecho. Escribir activa muchas zonas del cerebro a la vez.</p>
+    </div>
+    <div class="ejercicio-card">
+      <h4>🎵 Recordar canciones</h4>
+      <p>Piensa en 5 canciones que te gusten mucho e intenta recordar la letra de al menos una. Tararea la melodía. La música es una de las mejores herramientas para mantener la memoria.</p>
+    </div>
+    <div class="ejercicio-card">
+      <h4>🗺️ Viaje mental</h4>
+      <p>Cierra los ojos y recorre mentalmente un lugar que conozcas bien: tu casa de infancia, tu barrio, un lugar de vacaciones. Describe los detalles: colores, olores, sonidos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AGENDA ===== -->
+
+<div class="seccion" id="sec-agenda">
+  <div class="titulo-seccion">📞 Mis Contactos</div>
+
+  <div class="alerta alerta-exito">
+    ✅ Guarda los números importantes. Pulsa un contacto para ver su información.
+  </div>
+
+<button class="btn btn-primario" onclick="abrirModalContacto()" style="margin-bottom:16px; width:100%">➕ Añadir contacto</button>
+
+  <div id="lista-contactos"></div>
+</div>
+
+<!-- ===== COSTUMBRES ===== -->
+
+<div class="seccion" id="sec-costumbres">
+  <div class="titulo-seccion">⭐ Mis Costumbres</div>
+  <p class="texto-gris mb8">Marca cada día las cosas que forman parte de tu rutina. ¡No pierdas tus costumbres!</p>
+
+<button class="btn btn-dorado" onclick="abrirModalCostumbre()" style="margin-bottom:16px; width:100%">➕ Añadir costumbre</button>
+
+  <div id="lista-costumbres"></div>
+
+  <div class="tarjeta dorado mt16">
+    <h3>💡 Ideas de costumbres</h3>
+    <div class="texto-gris" style="line-height:2;">
+      ☕ Café de la mañana • 📰 Leer el periódico • 🌳 Paseo matutino • 📞 Llamar a un familiar • ✝️ Rezar o meditar • 🧩 Crucigrama • 🌿 Regar las plantas • 📺 Ver las noticias • 🍳 Cocinar algo especial • ✍️ Escribir el diario
+    </div>
+    <button class="btn btn-sm btn-dorado mt12" onclick="cargarCostumbresEjemplo()">Cargar ejemplos</button>
+  </div>
+</div>
+
+<!-- ===== ÁNIMO ===== -->
+
+<div class="seccion" id="sec-animo">
+  <div class="titulo-seccion">💛 ¿Cómo me siento?</div>
+
+  <div class="tarjeta">
+    <h3>¿Cómo estás hoy?</h3>
+    <div class="animo-grid">
+      <button class="animo-btn" onclick="seleccionarAnimo('😄','Muy bien')">😄<span class="label">Muy bien</span></button>
+      <button class="animo-btn" onclick="seleccionarAnimo('🙂','Bien')">🙂<span class="label">Bien</span></button>
+      <button class="animo-btn" onclick="seleccionarAnimo('😐','Regular')">😐<span class="label">Regular</span></button>
+      <button class="animo-btn" onclick="seleccionarAnimo('😔','Triste')">😔<span class="label">Triste</span></button>
+      <button class="animo-btn" onclick="seleccionarAnimo('😟','Mal')">😟<span class="label">Mal</span></button>
+    </div>
+    <div id="nota-animo-container" style="display:none">
+      <textarea id="nota-animo" placeholder="¿Quieres añadir algo más? (opcional)" style="min-height:70px;"></textarea>
+      <button class="btn btn-primario" onclick="guardarAnimo()">Guardar mi estado</button>
+    </div>
+  </div>
+
+  <div class="tarjeta verde">
+    <h3>📅 Mi registro de ánimo</h3>
+    <div id="historial-animo-lista" class="texto-gris">Aún no hay registros de hoy.</div>
+  </div>
+
+  <div class="tarjeta">
+    <h3>💬 Mensaje de apoyo</h3>
+    <div id="mensaje-apoyo" style="font-size:17px; line-height:1.6; color:var(--texto); font-family:'Playfair Display',serif;">
+      Cada día que te cuidas es un regalo que te das a ti mismo. ¡Eres más fuerte de lo que crees!
+    </div>
+  </div>
+</div>
+
+<!-- MODALES -->
+
+<div class="modal-overlay" id="modal-contacto">
+  <div class="modal">
+    <h3>📞 Nuevo contacto</h3>
+    <label>Nombre</label>
+    <input type="text" id="c-nombre" placeholder="Ej: María (hija)">
+    <label>Teléfono</label>
+    <input type="text" id="c-tel" placeholder="Ej: 612 345 678">
+    <label>Relación</label>
+    <select id="c-tipo">
+      <option value="familia">👨‍👩‍👧 Familia</option>
+      <option value="medico">🏥 Médico / Cuidador</option>
+      <option value="amigo">🤝 Amigo</option>
+    </select>
+    <label>Nota adicional</label>
+    <input type="text" id="c-nota" placeholder="Ej: Llama los domingos">
+    <div class="modal-btns">
+      <button class="btn btn-primario" onclick="guardarContacto()">Guardar</button>
+      <button class="btn btn-outline" onclick="cerrarModal('modal-contacto')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-costumbre">
+  <div class="modal">
+    <h3>⭐ Nueva costumbre</h3>
+    <label>Nombre</label>
+    <input type="text" id="cos-nombre" placeholder="Ej: Café de la mañana">
+    <label>Hora habitual</label>
+    <input type="time" id="cos-hora" value="08:00">
+    <label>Icono</label>
+    <div class="fila" style="flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="☕">☕</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="📰">📰</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="🌳">🌳</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="📞">📞</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="✝️">✝️</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="🧩">🧩</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="🌿">🌿</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="📺">📺</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="🍳">🍳</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="✍️">✍️</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="💊">💊</span>
+      <span style="cursor:pointer;font-size:24px" onclick="setIcono(this)" data-ic="🎵">🎵</span>
+    </div>
+    <div id="icono-seleccionado" style="font-size:32px; text-align:center; margin-bottom:8px;">☕</div>
+    <div class="modal-btns">
+      <button class="btn btn-dorado" onclick="guardarCostumbre()">Guardar</button>
+      <button class="btn btn-outline" onclick="cerrarModal('modal-costumbre')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-contacto-ver">
+  <div class="modal">
+    <h3 id="ver-nombre-titulo">Contacto</h3>
+    <div style="font-size:22px; font-weight:700; color:var(--azul); margin:12px 0;" id="ver-tel"></div>
+    <div style="color:var(--gris); margin-bottom:16px;" id="ver-relacion"></div>
+    <div style="background:var(--crema); padding:12px; border-radius:10px; margin-bottom:16px;" id="ver-nota"></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="cerrarModal('modal-contacto-ver')">Cerrar</button>
+      <button class="btn btn-terracota" onclick="eliminarContactoVer()" style="background:var(--terracota);color:white;border-radius:50px;padding:12px 22px;border:none;font-size:16px;font-weight:700;cursor:pointer;">🗑 Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ ESTADO GLOBAL ============
+const APP = {
+  horario: JSON.parse(localStorage.getItem('horario') || '[]'),
+  contactos: JSON.parse(localStorage.getItem('contactos') || '[]'),
+  costumbres: JSON.parse(localStorage.getItem('costumbres') || '[]'),
+  notas: JSON.parse(localStorage.getItem('notas') || '[]'),
+  palabrasGuardadas: JSON.parse(localStorage.getItem('palabrasGuardadas') || '[]'),
+  animo: JSON.parse(localStorage.getItem('animo') || '[]'),
+  quizStats: JSON.parse(localStorage.getItem('quizStats') || '{"c":0,"i":0}'),
+  dificuladNum: 3,
+  contactoVerIdx: -1,
+  animoSeleccionado: null,
+  iconoCostumbre: '☕',
+  timerBreath: null,
+  breathPhase: 0,
+  breathCount: 0
+};
+
+// ============ RELOJ Y FECHA ============
+function actualizarReloj() {
+  const ahora = new Date();
+  const h = ahora.getHours().toString().padStart(2,'0');
+  const m = ahora.getMinutes().toString().padStart(2,'0');
+  document.getElementById('reloj').textContent = h + ':' + m;
+
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  document.getElementById('fecha-hoy').textContent =
+    dias[ahora.getDay()] + ', ' + ahora.getDate() + ' de ' + meses[ahora.getMonth()] + ' de ' + ahora.getFullYear();
+}
+actualizarReloj();
+setInterval(actualizarReloj, 30000);
+
+// ============ FRASES DEL DÍA ============
+const FRASES = [
+  { t: "La edad es una cuestión de mente. Si no te importa, no importa.", a: "Mark Twain" },
+  { t: "No cuentes los años, haz que los años cuenten.", a: "George Meredith" },
+  { t: "Envejecer es obligatorio. Crecer es opcional.", a: "Chili Davis" },
+  { t: "La experiencia es el nombre que damos a nuestros errores.", a: "Oscar Wilde" },
+  { t: "El secreto de la salud es no llorar por el pasado, sino vivir el momento presente sabiamente.", a: "Buda" },
+  { t: "Cada día es una nueva oportunidad para cambiar tu vida.", a: "Anónimo" },
+  { t: "La alegría no está en las cosas, está en nosotros mismos.", a: "Richard Wagner" },
+  { t: "El mejor tiempo para plantar un árbol fue hace 20 años. El segundo mejor tiempo es ahora.", a: "Proverbio chino" },
+  { t: "Vivir bien es la mejor venganza.", a: "George Herbert" },
+  { t: "La gratitud es la memoria del corazón.", a: "Jean Baptiste Massieu" },
+  { t: "Un día sin sonreír es un día perdido.", a: "Charlie Chaplin" },
+  { t: "Lo que importa no es cuántos años tienes, sino cuánta vida tienes en esos años.", a: "Abraham Lincoln" },
+  { t: "La belleza de las cosas pequeñas es lo que da sentido a los grandes momentos.", a: "Anónimo" },
+  { t: "Eres suficiente, exactamente como eres.", a: "Anónimo" },
+  { t: "El corazón que ama es siempre joven.", a: "Proverbio griego" }
+];
+
+function mostrarFrase() {
+  const f = FRASES[new Date().getDate() % FRASES.length];
+  document.getElementById('frase-texto').textContent = f.t;
+  document.getElementById('frase-autor').textContent = '— ' + f.a;
+}
+mostrarFrase();
+
+// ============ NAVEGACIÓN ============
+function ir(id) {
+  document.querySelectorAll('.seccion').forEach(s => s.classList.remove('activa'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('activo'));
+  document.getElementById('sec-' + id).classList.add('activa');
+
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const idx = ['inicio','horario','memoria','ejercicios','agenda','costumbres','animo'];
+  navBtns[idx.indexOf(id)].classList.add('activo');
+  window.scrollTo(0,0);
+
+  if (id === 'inicio') actualizarProgreso();
+  if (id === 'agenda') renderContactos();
+  if (id === 'costumbres') renderCostumbres();
+  if (id === 'animo') renderHistorialAnimo();
+  if (id === 'horario') renderHorario();
+  if (id === 'memoria') { nuevaPalabra(); renderNotas(); }
+}
+
+// ============ PROGRESO ============
+function actualizarProgreso() {
+  const total = APP.horario.length + APP.costumbres.length;
+  if (total === 0) {
+    document.getElementById('barra-progreso').style.width = '0%';
+    document.getElementById('texto-progreso').textContent = 'Añade actividades en "Mi Día" y "Mis Costumbres"';
+    return;
+  }
+  const hechas = APP.horario.filter(a => a.hecha).length + APP.costumbres.filter(c => c.hecha).length;
+  const pct = Math.round((hechas/total)*100);
+  document.getElementById('barra-progreso').style.width = pct + '%';
+  document.getElementById('texto-progreso').textContent = hechas + ' de ' + total + ' actividades completadas (' + pct + '%)';
+}
+actualizarProgreso();
+
+// ============ HORARIO ============
+function guardarHorario() { localStorage.setItem('horario', JSON.stringify(APP.horario)); }
+
+function agregarActividad() {
+  const hora = document.getElementById('hora-act').value;
+  const nombre = document.getElementById('nombre-act').value.trim();
+  const cat = document.getElementById('cat-act').value;
+  if (!nombre) { alert('Por favor escribe el nombre de la actividad.'); return; }
+  APP.horario.push({ hora, nombre, cat, hecha: false });
+  APP.horario.sort((a,b) => a.hora.localeCompare(b.hora));
+  guardarHorario();
+  document.getElementById('nombre-act').value = '';
+  renderHorario();
+}
+
+function renderHorario() {
+  const cont = document.getElementById('lista-horario');
+  if (APP.horario.length === 0) {
+    cont.innerHTML = '<div class="alerta alerta-info">📝 Aún no tienes actividades. ¡Añade las de tu día!</div>';
+    return;
+  }
+  cont.innerHTML = APP.horario.map((a, i) => `
+    <div class="franja-hora ${a.hecha?'completada':''}" onclick="toggleActividad(${i})">
+      <span class="hora-badge">${a.hora}</span>
+      <span style="font-size:20px">${a.cat}</span>
+      <div class="actividad" style="text-decoration:${a.hecha?'line-through':''}">${a.nombre}</div>
+      <button class="check-btn">${a.hecha ? '✓' : ''}</button>
+      <button onclick="eliminarAct(event,${i})" style="background:none;border:none;cursor:pointer;color:#ccc;font-size:16px;">✕</button>
+    </div>
+  `).join('');
+}
+
+function toggleActividad(i) {
+  APP.horario[i].hecha = !APP.horario[i].hecha;
+  guardarHorario();
+  renderHorario();
+  actualizarProgreso();
+}
+
+function eliminarAct(e, i) {
+  e.stopPropagation();
+  if (confirm('¿Eliminar esta actividad?')) {
+    APP.horario.splice(i, 1);
+    guardarHorario();
+    renderHorario();
+  }
+}
+renderHorario();
+
+// ============ MEMORIA - PALABRAS ============
+const PALABRAS = [
+  { p:'Añoranza', def:'Pena o tristeza que causa el recuerdo de algo pasado que se desea volver a vivir.', pistas:['Sentimiento relacionado con el pasado','Puede aparecer al ver fotos antiguas','Mezcla recuerdo y melancolía'] },
+  { p:'Tertulia', def:'Reunión de personas que se juntan para hablar de algún tema de interés común.', pistas:['Se hace en grupo','Es una conversación amena','Puede ser en un café o en casa'] },
+  { p:'Sosiego', def:'Tranquilidad, calma y paz del espíritu.', pistas:['Sinónimo de tranquilidad','Lo contrario es la inquietud','Se siente cuando uno está en paz'] },
+  { p:'Pergamino', def:'Piel de animal preparada para escribir sobre ella; documento muy antiguo.', pistas:['Se usaba antes del papel','Los monjes escribían en él','Es muy antiguo y valioso'] },
+  { p:'Bisbisear', def:'Hablar en voz baja o entre dientes.', pistas:['Se hace en silencio','Similar a cuchichear','Lo hacen los niños cuando tienen un secreto'] },
+  { p:'Otoño', def:'Estación del año entre el verano y el invierno, conocida por la caída de las hojas.', pistas:['Las hojas cambian de color','Hace fresco pero no mucho frío','Viene después del verano'] },
+  { p:'Crepúsculo', def:'Claridad que hay antes de salir el sol y después de ponerse.', pistas:['Ocurre al amanecer o al atardecer','El cielo se pone de colores bonitos','Es el momento entre el día y la noche'] },
+  { p:'Bienestar', def:'Estado de la persona cuyas condiciones físicas y mentales le proporcionan un sentimiento de satisfacción.', pistas:['Sentirse bien física y mentalmente','Es lo que todos buscamos','Lo contrario es el malestar'] },
+  { p:'Hazaña', def:'Hecho heroico o notable, acción valerosa.', pistas:['Lo hacen los héroes','Es algo admirable','Requiere valentía o esfuerzo especial'] },
+  { p:'Zaguán', def:'Espacio cubierto situado dentro de una casa, que sirve de entrada a ella.', pistas:['Parte de entrada de una casa','Está entre la puerta principal y el interior','Antes era muy común en casas antiguas'] },
+];
+
+let palabraActual = null;
+let palabraRevelada = false;
+
+function nuevaPalabra() {
+  palabraActual = PALABRAS[Math.floor(Math.random() * PALABRAS.length)];
+  palabraRevelada = false;
+  document.getElementById('palabra-actual').textContent = palabraActual.p;
+  document.getElementById('pistas-container').innerHTML = palabraActual.pistas.map((p,i) =>
+    `<div class="pista-item"><div class="numero-pista">${i+1}</div><div>${p}</div></div>`
+  ).join('');
+  document.getElementById('respuesta-palabra').value = '';
+  document.getElementById('resultado-palabra').className = 'resultado-juego resultado-oculto';
+}
+
+function verificarPalabra() {
+  const resp = document.getElementById('respuesta-palabra').value.trim();
+  const res = document.getElementById('resultado-palabra');
+  if (!resp) { res.className='resultado-juego resultado-mal'; res.textContent='✏️ Por favor escribe algo primero.'; return; }
+  res.className = 'resultado-juego resultado-bien';
+  res.innerHTML = `✅ ¡Muy bien! La definición correcta es:<br><em>"${palabraActual.def}"</em><br><br>
+    <button class="btn btn-sm btn-verde" onclick="guardarPalabraActual()">💾 Guardar en mi vocabulario</button>`;
+}
+
+function guardarPalabraActual() {
+  if (!palabraActual) return;
+  if (!APP.palabrasGuardadas.find(p => p.p === palabraActual.p)) {
+    APP.palabrasGuardadas.push(palabraActual);
+    localStorage.setItem('palabrasGuardadas', JSON.stringify(APP.palabrasGuardadas));
+    renderPalabrasGuardadas();
+    alert('✅ Palabra guardada en tu vocabulario.');
+  } else {
+    alert('Esta palabra ya está en tu vocabulario.');
+  }
+}
+
+function renderPalabrasGuardadas() {
+  const cont = document.getElementById('palabras-guardadas');
+  if (APP.palabrasGuardadas.length === 0) {
+    cont.innerHTML = '<span class="texto-gris">Aún no has guardado palabras.</span>';
+    return;
+  }
+  cont.innerHTML = APP.palabrasGuardadas.map(p =>
+    `<div class="pista-item"><strong>${p.p}</strong>: ${p.def}</div>`
+  ).join('');
+}
+renderPalabrasGuardadas();
+
+// ============ QUIZ ============
+const QUIZ = [
+  { cat:'🗺️ Geografía', p:'¿Cuál es la capital de España?', ops:['Madrid','Barcelona','Sevilla','Valencia'], c:0 },
+  { cat:'🌿 Naturaleza', p:'¿En qué estación del año florecen la mayoría de las flores?', ops:['Invierno','Verano','Primavera','Otoño'], c:2 },
+  { cat:'📅 Historia', p:'¿En qué año llegó el hombre a la Luna?', ops:['1965','1969','1972','1981'], c:1 },
+  { cat:'🍳 Cocina', p:'¿Cuál es el ingrediente principal de la tortilla española?', ops:['Zanahoria','Patata','Cebolla','Tomate'], c:1 },
+  { cat:'🎨 Arte', p:'¿Quién pintó "Las Meninas"?', ops:['Goya','El Greco','Velázquez','Murillo'], c:2 },
+  { cat:'🌍 Geografía', p:'¿Cuál es el río más largo del mundo?', ops:['Amazonas','Nilo','Misisipi','Yangtsé'], c:1 },
+  { cat:'🎵 Música', p:'¿Cuántas notas tiene la escala musical?', ops:['5','6','7','8'], c:2 },
+  { cat:'📖 Literatura', p:'¿Quién escribió "El Quijote"?', ops:['Lope de Vega','Cervantes','Quevedo','Calderón'], c:1 },
+  { cat:'🔬 Ciencia', p:'¿Cuántos planetas tiene el sistema solar?', ops:['7','8','9','10'], c:1 },
+  { cat:'🌿 Naturaleza', p:'¿Cuántos años vive un olivo?', ops:['100','500','1000','3000'], c:2 },
+  { cat:'🐾 Animales', p:'¿Cuál es el animal terrestre más rápido?', ops:['León','Guepardo','Caballo','Lobo'], c:1 },
+  { cat:'🍳 Cocina', p:'¿De qué país es originaria la paella?', ops:['Italia','Portugal','España','Francia'], c:2 },
+  { cat:'📅 Historia', p:'¿En qué año terminó la Segunda Guerra Mundial?', ops:['1943','1944','1945','1946'], c:2 },
+  { cat:'🎵 Música', p:'¿Quién compuso "La novena sinfonía"?', ops:['Mozart','Bach','Beethoven','Schubert'], c:2 },
+];
+
+let quizActual = null;
+
+function nuevaPreguntaQuiz() {
+  quizActual = QUIZ[Math.floor(Math.random() * QUIZ.length)];
+  document.getElementById('quiz-pregunta').textContent = quizActual.p;
+  document.getElementById('quiz-categoria').textContent = quizActual.cat;
+  document.getElementById('quiz-opciones').innerHTML = quizActual.ops.map((op,i) =>
+    `<button class="opcion-btn" onclick="responderQuiz(${i})">${op}</button>`
+  ).join('');
+  document.getElementById('resultado-quiz').className = 'resultado-juego resultado-oculto';
+}
+
+function responderQuiz(i) {
+  const res = document.getElementById('resultado-quiz');
+  document.querySelectorAll('.opcion-btn').forEach(b => b.style.pointerEvents = 'none');
+  if (i === quizActual.c) {
+    document.querySelectorAll('.opcion-btn')[i].classList.add('correcta');
+    APP.quizStats.c++;
+    res.className = 'resultado-juego resultado-bien';
+    res.textContent = '✅ ¡Correcto! ¡Muy bien!';
+  } else {
+    document.querySelectorAll('.opcion-btn')[i].classList.add('incorrecta');
+    document.querySelectorAll('.opcion-btn')[quizActual.c].classList.add('correcta');
+    APP.quizStats.i++;
+    res.className = 'resultado-juego resultado-mal';
+    res.textContent = '❌ No era esa. La respuesta correcta es: ' + quizActual.ops[quizActual.c];
+  }
+  localStorage.setItem('quizStats', JSON.stringify(APP.quizStats));
+  document.getElementById('quiz-correctas').textContent = APP.quizStats.c;
+  document.getElementById('quiz-incorrectas').textContent = APP.quizStats.i;
+}
+
+document.getElementById('quiz-correctas').textContent = APP.quizStats.c;
+document.getElementById('quiz-incorrectas').textContent = APP.quizStats.i;
+
+// ============ NÚMEROS ============
+let numeroSecreto = '';
+let numTimer = null;
+
+function setDificultad(d) {
+  APP.dificuladNum = d;
+  document.getElementById('num-mostrar').style.display = 'block';
+  document.getElementById('num-responder').style.display = 'none';
+  document.getElementById('numero-actual').textContent = '---';
+}
+
+function iniciarJuegoNumeros() {
+  let num = '';
+  for (let i=0; i<APP.dificuladNum; i++) num += Math.floor(Math.random()*10);
+  numeroSecreto = num;
+  document.getElementById('numero-actual').textContent = num;
+  let secs = 5;
+  document.getElementById('num-segundos').textContent = secs;
+  if (numTimer) clearInterval(numTimer);
+  numTimer = setInterval(() => {
+    secs--;
+    document.getElementById('num-segundos').textContent = secs;
+    if (secs <= 0) {
+      clearInterval(numTimer);
+      document.getElementById('num-mostrar').style.display = 'none';
+      document.getElementById('num-responder').style.display = 'block';
+      document.getElementById('respuesta-numero').value = '';
+      document.getElementById('resultado-numero').className = 'resultado-juego resultado-oculto';
+    }
+  }, 1000);
+}
+
+function verificarNumero() {
+  const resp = document.getElementById('respuesta-numero').value.trim();
+  const res = document.getElementById('resultado-numero');
+  if (resp === numeroSecreto) {
+    res.className = 'resultado-juego resultado-bien';
+    res.textContent = '✅ ¡Perfecto! Lo recordaste correctamente: ' + numeroSecreto;
+  } else {
+    res.className = 'resultado-juego resultado-mal';
+    res.textContent = '❌ El número era: ' + numeroSecreto + '. ¡Sigue practicando!';
+  }
+  res.style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('num-mostrar').style.display = 'block';
+    document.getElementById('num-responder').style.display = 'none';
+    document.getElementById('numero-actual').textContent = '---';
+  }, 3000);
+}
+
+// ============ NOTAS ============
+function guardarNota() {
+  const titulo = document.getElementById('nota-titulo').value.trim();
+  const contenido = document.getElementById('nota-contenido').value.trim();
+  if (!titulo) { alert('Escribe un título para la nota.'); return; }
+  APP.notas.unshift({ titulo, contenido, fecha: new Date().toLocaleDateString('es-ES') });
+  localStorage.setItem('notas', JSON.stringify(APP.notas));
+  document.getElementById('nota-titulo').value = '';
+  document.getElementById('nota-contenido').value = '';
+  renderNotas();
+}
+
+function renderNotas() {
+  const cont = document.getElementById('lista-notas');
+  if (APP.notas.length === 0) {
+    cont.innerHTML = '<div class="alerta alerta-info">📝 Aún no tienes notas guardadas.</div>';
+    return;
+  }
+  cont.innerHTML = APP.notas.map((n,i) => `
+    <div class="tarjeta" style="border-left-color:var(--verde)">
+      <div class="fila-entre mb8">
+        <strong style="font-size:17px;">${n.titulo}</strong>
+        <span class="texto-gris" style="font-size:13px;">${n.fecha}</span>
+      </div>
+      <p style="font-size:15px; line-height:1.5; color:var(--gris)">${n.contenido}</p>
+      <button class="btn btn-sm btn-outline" onclick="eliminarNota(${i})" style="margin-top:10px;">🗑 Eliminar</button>
+    </div>
+  `).join('');
+}
+
+function eliminarNota(i) {
+  if (confirm('¿Eliminar esta nota?')) {
+    APP.notas.splice(i,1);
+    localStorage.setItem('notas', JSON.stringify(APP.notas));
+    renderNotas();
+  }
+}
+
+// ============ TABS MEMORIA ============
+function tabMemoria(tab) {
+  ['palabras','quiz','numeros','notas'].forEach(t => {
+    document.getElementById('mem-'+t).style.display = t===tab ? 'block':'none';
+  });
+  if (tab==='quiz' && !quizActual) nuevaPreguntaQuiz();
+  if (tab==='palabras') nuevaPalabra();
+  if (tab==='notas') renderNotas();
+}
+
+// ============ TABS EJERCICIO ============
+function tabEjercicio(tab) {
+  ['estiramientos','respiracion','movimiento','cerebro'].forEach(t => {
+    document.getElementById('ej-'+t).style.display = t===tab?'block':'none';
+  });
+}
+
+// ============ RESPIRACIÓN ============
+let breathInterval = null;
+let breathTime = 0;
+
+const FASES = [
+  { label:'🫁 Inhala...', dur:4, color:'var(--azul)' },
+  { label:'⏸ Aguanta...', dur:7, color:'var(--dorado)' },
+  { label:'💨 Exhala...', dur:8, color:'var(--verde)' },
+];
+let faseActual = 0, tiempoFase = 0, totalSegundos = 0;
+
+function iniciarRespiracion() {
+  pararRespiracion();
+  faseActual = 0; tiempoFase = 0; totalSegundos = 0;
+  breathInterval = setInterval(() => {
+    totalSegundos++;
+    const m = Math.floor(totalSegundos/60).toString().padStart(2,'0');
+    const s = (totalSegundos%60).toString().padStart(2,'0');
+    document.getElementById('timer-display').textContent = m+':'+s;
+    tiempoFase++;
+    const fase = FASES[faseActual];
+    document.getElementById('guia-respiracion').textContent = fase.label + ' (' + (fase.dur - tiempoFase%fase.dur) + ')';
+    document.getElementById('guia-respiracion').style.color = fase.color;
+    if (tiempoFase >= fase.dur) { tiempoFase = 0; faseActual = (faseActual+1)%3; }
+  }, 1000);
+}
+
+function pararRespiracion() {
+  if (breathInterval) clearInterval(breathInterval);
+  document.getElementById('guia-respiracion').textContent = '';
+}
+
+// ============ CONTACTOS ============
+function abrirModalContacto() {
+  document.getElementById('modal-contacto').classList.add('abierto');
+}
+
+function guardarContacto() {
+  const nombre = document.getElementById('c-nombre').value.trim();
+  const tel = document.getElementById('c-tel').value.trim();
+  if (!nombre || !tel) { alert('Por favor rellena el nombre y el teléfono.'); return; }
+  APP.contactos.push({
+    nombre, tel,
+    tipo: document.getElementById('c-tipo').value,
+    nota: document.getElementById('c-nota').value.trim()
+  });
+  localStorage.setItem('contactos', JSON.stringify(APP.contactos));
+  ['c-nombre','c-tel','c-nota'].forEach(id => document.getElementById(id).value = '');
+  cerrarModal('modal-contacto');
+  renderContactos();
+}
+
+function renderContactos() {
+  const cont = document.getElementById('lista-contactos');
+  if (APP.contactos.length === 0) {
+    cont.innerHTML = '<div class="alerta alerta-info">📞 No tienes contactos guardados. ¡Añade los más importantes!</div>';
+    return;
+  }
+  const iconos = { familia:'👨‍👩‍👧', medico:'🏥', amigo:'🤝' };
+  cont.innerHTML = APP.contactos.map((c,i) => `
+    <div class="contacto-item" onclick="verContacto(${i})">
+      <div class="avatar ${c.tipo}">${iconos[c.tipo]||'👤'}</div>
+      <div class="contacto-info">
+        <div class="contacto-nombre">${c.nombre}</div>
+        <div class="contacto-relacion">${c.tipo==='familia'?'Familia':c.tipo==='medico'?'Médico / Cuidador':'Amigo'}</div>
+      </div>
+      <div class="contacto-tel">${c.tel}</div>
+    </div>
+  `).join('');
+}
+
+function verContacto(i) {
+  APP.contactoVerIdx = i;
+  const c = APP.contactos[i];
+  document.getElementById('ver-nombre-titulo').textContent = '📞 ' + c.nombre;
+  document.getElementById('ver-tel').textContent = c.tel;
+  document.getElementById('ver-relacion').textContent = c.tipo==='familia'?'👨‍👩‍👧 Familia':c.tipo==='medico'?'🏥 Médico / Cuidador':'🤝 Amigo';
+  document.getElementById('ver-nota').textContent = c.nota || '(Sin nota adicional)';
+  document.getElementById('modal-contacto-ver').classList.add('abierto');
+}
+
+function eliminarContactoVer() {
+  if (confirm('¿Eliminar este contacto?')) {
+    APP.contactos.splice(APP.contactoVerIdx, 1);
+    localStorage.setItem('contactos', JSON.stringify(APP.contactos));
+    cerrarModal('modal-contacto-ver');
+    renderContactos();
+  }
+}
+renderContactos();
+
+// ============ COSTUMBRES ============
+function setIcono(el) {
+  APP.iconoCostumbre = el.dataset.ic;
+  document.getElementById('icono-seleccionado').textContent = APP.iconoCostumbre;
+}
+
+function abrirModalCostumbre() {
+  document.getElementById('modal-costumbre').classList.add('abierto');
+}
+
+function guardarCostumbre() {
+  const nombre = document.getElementById('cos-nombre').value.trim();
+  if (!nombre) { alert('Escribe el nombre de la costumbre.'); return; }
+  APP.costumbres.push({
+    nombre,
+    hora: document.getElementById('cos-hora').value,
+    icono: APP.iconoCostumbre,
+    hecha: false
+  });
+  localStorage.setItem('costumbres', JSON.stringify(APP.costumbres));
+  document.getElementById('cos-nombre').value = '';
+  cerrarModal('modal-costumbre');
+  renderCostumbres();
+}
+
+function cargarCostumbresEjemplo() {
+  const ejemplos = [
+    { nombre:'Café de la mañana', hora:'08:00', icono:'☕', hecha:false },
+    { nombre:'Leer el periódico', hora:'09:00', icono:'📰', hecha:false },
+    { nombre:'Paseo matutino', hora:'10:00', icono:'🌳', hecha:false },
+    { nombre:'Llamar a un familiar', hora:'12:00', icono:'📞', hecha:false },
+    { nombre:'Rezar o meditar', hora:'07:30', icono:'✝️', hecha:false },
+    { nombre:'Ver las noticias', hora:'21:00', icono:'📺', hecha:false },
+  ];
+  APP.costumbres = [...APP.costumbres, ...ejemplos];
+  localStorage.setItem('costumbres', JSON.stringify(APP.costumbres));
+  renderCostumbres();
+}
+
+function toggleCostumbre(i) {
+  APP.costumbres[i].hecha = !APP.costumbres[i].hecha;
+  localStorage.setItem('costumbres', JSON.stringify(APP.costumbres));
+  renderCostumbres();
+  actualizarProgreso();
+}
+
+function renderCostumbres() {
+  const cont = document.getElementById('lista-costumbres');
+  if (APP.costumbres.length === 0) {
+    cont.innerHTML = '<div class="alerta alerta-info">⭐ Aún no tienes costumbres registradas.</div>';
+    return;
+  }
+  cont.innerHTML = APP.costumbres.map((c,i) => `
+    <div class="costumbre-item">
+      <div class="costumbre-icon">${c.icono}</div>
+      <div class="costumbre-info">
+        <div class="costumbre-nombre" style="text-decoration:${c.hecha?'line-through':''}">${c.nombre}</div>
+        <div class="costumbre-hora">⏰ ${c.hora}</div>
+      </div>
+      <button class="costumbre-check ${c.hecha?'hecho':''}" onclick="toggleCostumbre(${i})">${c.hecha?'✓':''}</button>
+      <button onclick="eliminarCostumbre(${i})" style="background:none;border:none;cursor:pointer;color:#ccc;font-size:16px; margin-left:6px;">✕</button>
+    </div>
+  `).join('');
+}
+
+function eliminarCostumbre(i) {
+  if (confirm('¿Eliminar esta costumbre?')) {
+    APP.costumbres.splice(i,1);
+    localStorage.setItem('costumbres', JSON.stringify(APP.costumbres));
+    renderCostumbres();
+  }
+}
+renderCostumbres();
+
+// ============ ÁNIMO ============
+const MENSAJES = {
+  '😄': ['¡Qué maravilla! Tu alegría ilumina el día. ¡Sigue así!', '¡Genial! Los días buenos son para disfrutarlos al máximo.'],
+  '🙂': ['¡Bien! Un buen día merece ser aprovechado con gratitud.', 'Estar bien es un regalo. ¡Disfrútalo!'],
+  '😐': ['Los días regulares también tienen su valor. ¿Hay algo pequeño que puedas hacer para mejorar el momento?', 'Es normal tener días así. Respira profundo y tómatelo con calma.'],
+  '😔': ['Sentirse triste es completamente válido. ¿Hay alguien con quien puedas hablar hoy?', 'Los días difíciles pasan. Cuídate mucho y busca compañía si puedes.'],
+  '😟': ['Lo sentimos mucho. Es importante hablar con alguien cuando uno se siente mal. Llama a alguien de confianza.', 'Si te sientes muy mal, no dudes en llamar a un familiar o médico. No estás solo/a.'],
+};
+
+function seleccionarAnimo(emoji, label) {
+  APP.animoSeleccionado = { emoji, label };
+  document.querySelectorAll('.animo-btn').forEach(b => b.classList.remove('seleccionado'));
+  event.currentTarget.classList.add('seleccionado');
+  document.getElementById('nota-animo-container').style.display = 'block';
+  const msgs = MENSAJES[emoji];
+  document.getElementById('mensaje-apoyo').textContent = msgs[Math.floor(Math.random()*msgs.length)];
+}
+
+function guardarAnimo() {
+  if (!APP.animoSeleccionado) return;
+  const nota = document.getElementById('nota-animo').value.trim();
+  const ahora = new Date();
+  APP.animo.unshift({
+    emoji: APP.animoSeleccionado.emoji,
+    label: APP.animoSeleccionado.label,
+    nota,
+    hora: ahora.toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit'}),
+    fecha: ahora.toLocaleDateString('es-ES')
+  });
+  if (APP.animo.length > 30) APP.animo.pop();
+  localStorage.setItem('animo', JSON.stringify(APP.animo));
+  document.getElementById('nota-animo').value = '';
+  document.getElementById('nota-animo-container').style.display = 'none';
+  APP.animoSeleccionado = null;
+  document.querySelectorAll('.animo-btn').forEach(b => b.classList.remove('seleccionado'));
+  renderHistorialAnimo();
+}
+
+function renderHistorialAnimo() {
+  const cont = document.getElementById('historial-animo-lista');
+  if (APP.animo.length === 0) {
+    cont.innerHTML = '<span class="texto-gris">Aún no hay registros.</span>';
+    return;
+  }
+  cont.innerHTML = APP.animo.slice(0,10).map(a => `
+    <div class="animo-registro">
+      <span style="font-size:24px">${a.emoji}</span>
+      <div>
+        <div style="font-weight:700">${a.label}</div>
+        <div style="font-size:13px; color:var(--gris)">${a.fecha} a las ${a.hora}</div>
+        ${a.nota ? `<div style="font-size:14px; color:var(--texto); margin-top:3px;">${a.nota}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ MODAL UTILS ============
+function cerrarModal(id) {
+  document.getElementById(id).classList.remove('abierto');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('abierto');
+  });
+});
+
+// Init
+nuevaPalabra();
+</script>
+
+</body>
+</html>
