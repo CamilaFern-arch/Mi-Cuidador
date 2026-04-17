@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mi Compañero del Día</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --crema: #FDF6EC;
+            --terracota: #C1694F;
+            --terracota-suave: #E8937B;
+            --verde: #5C8A6E;
+            --verde-claro: #A8C5B5;
+            --azul: #4A7FA5;
+            --azul-claro: #A8C9E0;
+            --dorado: #D4A843;
+            --texto: #3A2E2A;
+            --gris: #8A7E78;
+            --blanco: #FFFFFF;
+            --sombra: 0 4px 20px rgba(58,46,42,0.12);
+            --radio: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--crema);
+            color: var(--texto);
+            min-height: 100vh;
+        }
+
+        input, button {
+            font-size: 16px;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg, var(--terracota) 0%, var(--dorado) 100%);
+            padding: 20px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #reloj {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* NAV */
+
+        nav {
+            display: flex;
+            gap: 8px;
+            padding: 14px;
+            background: white;
+            overflow-x: auto;
+            position: sticky;
+            top: 78px;
+            z-index: 99;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 50px;
+            background: var(--crema);
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .nav-btn.activo {
+            background: var(--terracota);
+            color: white;
+        }
+
+        /* SECCIONES */
+
+        .seccion {
+            display: none;
+            padding: 20px 16px 90px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .seccion.activa {
+            display: block;
+            animation: aparecer 0.3s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TARJETAS */
+
+        .tarjeta {
+            background: white;
+            border-radius: var(--radio);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--sombra);
+            border-left: 5px solid var(--terracota-suave);
+        }
+
+        .tarjeta.verde {
+            border-left-color: var(--verde);
+        }
+
+        .tarjeta.azul {
+            border-left-color: var(--azul);
+        }
+
+        /* BOTONES */
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.2s ease;
+        }
+
+        .btn:active,
+        .nav-btn:active,
+        .animo-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primario {
+            background: var(--terracota);
+            color: white;
+        }
+
+        .btn-azul {
+            background: var(--azul);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--terracota);
+            color: var(--terracota);
+        }
+
+        /* INPUTS */
+
+        input[type="text"],
+        input[type="time"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 14px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+
+        /* PALABRAS */
+
+        .palabra-grande {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--terracota);
+            text-align: center;
+            margin: 20px 0;
+            word-break: break-word;
+        }
+
+        /* QUIZ */
+
+        .opcion-btn {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #E8E0DA;
+            border-radius: 12px;
+            background: white;
+            margin-bottom: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .opcion-btn.correcta {
+            border-color: var(--verde);
+            background: #E8F5EE;
+        }
+
+        .opcion-btn.incorrecta {
+            border-color: var(--terracota);
+            background: #FEF0EC;
+        }
+
+        /* ÁNIMO */
+
+        .animo-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .animo-btn {
+            border: none;
+            border-radius: 12px;
+            background: var(--crema);
+            font-size: 24px;
+            padding: 10px;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .animo-btn.seleccionado {
+            background: white;
+            box-shadow: var(--sombra);
+            transform: scale(1.08);
+        }
+
+        #historial-animo {
+            margin-top: 12px;
+            font-size: 26px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 480px) {
+            #reloj {
+                font-size: 24px;
+            }
+
+            .palabra-grande {
+                font-size: 34px;
+            }
+
+            nav {
+                padding: 10px;
+                top: 76px;
+            }
+
+            .nav-btn {
+                padding: 9px 14px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div style="font-family:'Playfair Display', serif; font-size:20px;">
+            🌻 Mi Compañero
+        </div>
+        <div id="reloj">--:--</div>
+    </div>
+
+    <div id="fecha-hoy" style="text-align:center; font-size:14px; margin-top:5px;"></div>
+</header>
+
+<nav>
+    <button class="nav-btn activo" onclick="ir('inicio', this)">🏠 Inicio</button>
+    <button class="nav-btn" onclick="ir('horario', this)">🗓 Mi Día</button>
+    <button class="nav-btn" onclick="ir('memoria', this)">🧠 Memoria</button>
+    <button class="nav-btn" onclick="ir('ejercicios', this)">🤸 Ejercicios</button>
+    <button class="nav-btn" onclick="ir('costumbres', this)">⭐ Costumbres</button>
+    <button class="nav-btn" onclick="ir('animo', this)">💛 Ánimo</button>
+</nav>
+
+<div class="seccion activa" id="sec-inicio">
+    <div class="tarjeta">
+        <p id="frase-texto" style="font-style:italic; text-align:center; font-size:18px;"></p>
+    </div>
+
+    <div class="tarjeta verde">
+        <h3>Tu progreso</h3>
+
+        <div style="background:#eee; height:15px; border-radius:10px; margin:10px 0;">
+            <div id="barra-progreso" style="background:var(--verde); height:100%; width:0%; border-radius:10px; transition:0.5s;"></div>
+        </div>
+
+        <p id="texto-progreso" style="font-size:12px; text-align:right;"></p>
+    </div>
+</div>
+
+<div class="seccion" id="sec-horario">
+    <div class="tarjeta azul">
+        <h3>Añadir actividad</h3>
+
+        <input type="time" id="hora-act">
+        <input type="text" id="nombre-act" placeholder="¿Qué harás?">
+
+        <button class="btn btn-azul" onclick="agregarActividad()">Guardar</button>
+    </div>
+
+    <div id="lista-horario"></div>
+</div>
+
+<div class="seccion" id="sec-memoria">
+    <div style="display:flex; gap:6px; margin-bottom:15px;">
+        <button class="btn btn-primario" onclick="tabMemoria('palabras')">Palabras</button>
+        <button class="btn btn-primario" onclick="tabMemoria('quiz')">Quiz</button>
+        <button class="btn btn-primario" onclick="tabMemoria('numeros')">Números</button>
+    </div>
+
+    <div id="mem-palabras">
+        <div class="tarjeta">
+            <h3>Recuerda esta palabra</h3>
+
+            <div class="palabra-grande" id="palabra-actual">---</div>
+
+            <div id="pistas-container" style="color:var(--gris); line-height:1.7;"></div>
+
+            <button class="btn btn-outline" onclick="nuevaPalabra()">Siguiente palabra</button>
+        </div>
+    </div>
+
+    <div id="mem-quiz" style="display:none;">
+        <div class="tarjeta">
+            <h3 id="quiz-categoria" style="color:var(--azul);"></h3>
+            <p id="quiz-pregunta" style="font-size:18px; font-weight:bold; margin:15px 0;"></p>
+            <div id="quiz-opciones"></div>
+        </div>
+    </div>
+
+    <div id="mem-numeros" style="display:none;">
+        <div class="tarjeta">
+            <h3>Memoriza el número</h3>
+
+            <div id="num-display" class="palabra-grande">---</div>
+
+            <div id="num-input-zone" style="display:none;">
+                <input type="number" id="num-respuesta">
+                <button class="btn btn-primario" onclick="verificarNumero()">Comprobar</button>
+            </div>
+
+            <button id="btn-start-num" class="btn btn-azul" onclick="iniciarJuegoNumeros()">
+                ¡Empezar (5 seg)!
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="seccion" id="sec-ejercicios">
+    <div class="tarjeta verde">
+        <h3>🤸 Estiramientos suaves</h3>
+
+        <div id="lista-ejercicios">
+            <p>1. <strong>Cuello:</strong> gira suavemente a la derecha e izquierda (10 veces).</p>
+            <br>
+            <p>2. <strong>Hombros:</strong> haz círculos hacia atrás (10 veces).</p>
+            <br>
+            <p>3. <strong>Manos:</strong> abre y cierra los puños con suavidad.</p>
+        </div>
+    </div>
+</div>
+
+<div class="seccion" id="sec-costumbres">
+    <div class="tarjeta">
+        <h3>⭐ Mis costumbres</h3>
+
+        <div id="lista-costumbres"></div>
+
+        <button class="btn btn-outline" onclick="cargarCostumbresEjemplo()">
+            Cargar ejemplos
+        </button>
+    </div>
+</div>
+
+<div class="seccion" id="sec-animo">
+    <div class="tarjeta">
+        <h3>¿Cómo te sientes hoy?</h3>
+
+        <div class="animo-grid">
+            <button class="animo-btn" onclick="seleccionarAnimo(this, '😄')">😄</button>
+            <button class="animo-btn" onclick="seleccionarAnimo(this, '🙂')">🙂</button>
+            <button class="animo-btn" onclick="seleccionarAnimo(this, '😐')">😐</button>
+            <button class="animo-btn" onclick="seleccionarAnimo(this, '😔')">😔</button>
+            <button class="animo-btn" onclick="seleccionarAnimo(this, '😟')">😟</button>
+        </div>
+
+        <div id="historial-animo"></div>
+    </div>
+</div>
+
+<script>
+    const APP = {
+        horario: JSON.parse(localStorage.getItem('horario') || '[]'),
+        costumbres: JSON.parse(localStorage.getItem('costumbres') || '[]'),
+        animo: JSON.parse(localStorage.getItem('animo') || '[]'),
+        numSecreto: ''
+    };
+
+    function updateTime() {
+        const ahora = new Date();
+
+        document.getElementById('reloj').textContent =
+            ahora.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+        document.getElementById('fecha-hoy').textContent =
+            ahora.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long'
+            });
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    function ir(id, btn) {
+        document.querySelectorAll('.seccion').forEach(sec => {
+            sec.classList.remove('activa');
+        });
+
+        document.querySelectorAll('.nav-btn').forEach(b => {
+            b.classList.remove('activo');
+        });
+
+        document.getElementById('sec-' + id).classList.add('activa');
+        btn.classList.add('activo');
+
+        if (id === 'inicio') updateProgreso();
+        if (id === 'horario') renderHorario();
+        if (id === 'costumbres') renderCostumbres();
+        if (id === 'animo') renderAnimo();
+    }
+
+    function agregarActividad() {
+        const hora = document.getElementById('hora-act').value;
+        const nombre = document.getElementById('nombre-act').value.trim();
+
+        if (!hora || !nombre) return;
+
+        APP.horario.push({
+            hora,
+            nombre,
+            hecha: false
+        });
+
+        localStorage.setItem('horario', JSON.stringify(APP.horario));
+
+        document.getElementById('hora-act').value = '';
+        document.getElementById('nombre-act').value = '';
+
+        renderHorario();
+    }
+
+    function renderHorario() {
+        const lista = document.getElementById('lista-horario');
+
+        if (APP.horario.length === 0) {
+            lista.innerHTML = `
+                <div class="tarjeta">
+                    Aún no tienes actividades guardadas 🌷
+                </div>
+            `;
+            return;
+        }
+
+        lista.innerHTML = APP.horario.map((act, i) => `
+            <div class="tarjeta" style="display:flex; justify-content:space-between; align-items:center; gap:12px; ${act.hecha ? 'opacity:0.55;' : ''}">
+                <div style="flex:1;">
+                    <strong>${act.hora}</strong><br>
+                    ${act.nombre}
+                </div>
+
+                <button onclick="toggleAct(${i})" style="border:none; background:none; font-size:22px; cursor:pointer;">
+                    ${act.hecha ? '✅' : '⬜'}
+                </button>
+            </div>
+        `).join('');
+
+        updateProgreso();
+    }
+
+    function toggleAct(i) {
+        APP.horario[i].hecha = !APP.horario[i].hecha;
+
+        localStorage.setItem('horario', JSON.stringify(APP.horario));
+        renderHorario();
+    }
+
+    function updateProgreso() {
+        const total = APP.horario.length + APP.costumbres.length;
+        const hechas =
+            APP.horario.filter(x => x.hecha).length +
+            APP.costumbres.filter(x => x.hecha).length;
+
+        const porcentaje = total === 0 ? 0 : Math.round((hechas / total) * 100);
+
+        document.getElementById('barra-progreso').style.width = porcentaje + '%';
+        document.getElementById('texto-progreso').textContent =
+            `${hechas} de ${total} completadas`;
+    }
+
+    const PALABRAS = [
+        {
+            p: 'Añoranza',
+            pistas: [
+                'Recuerdo triste de algo querido',
+                'Suele aparecer al mirar fotos antiguas'
+            ]
+        },
+        {
+            p: 'Sosiego',
+            pistas: [
+                'Sinónimo de calma y tranquilidad',
+                'Lo que se siente en un jardín silencioso'
+            ]
+        },
+        {
+            p: 'Tertulia',
+            pistas: [
+                'Reunión para conversar',
+                'Muy típica de cafés antiguos'
+            ]
+        }
+    ];
+
+    function nuevaPalabra() {
+        const palabra = PALABRAS[Math.floor(Math.random() * PALABRAS.length)];
+
+        document.getElementById('palabra-actual').textContent = palabra.p;
+
+        document.getElementById('pistas-container').innerHTML =
+            palabra.pistas.map(pista => `• ${pista}<br>`).join('');
+    }
+
+    const PREGUNTAS = [
+        {
+            q: '¿Cuál es el río más largo de España?',
+            o: ['Ebro', 'Tajo', 'Duero'],
+            c: 1
+        },
+        {
+            q: '¿Quién pintó Las Meninas?',
+            o: ['Goya', 'Velázquez', 'Picasso'],
+            c: 1
+        }
+    ];
+
+    function nuevaPreguntaQuiz() {
+        const pregunta = PREGUNTAS[Math.floor(Math.random() * PREGUNTAS.length)];
+
+        document.getElementById('quiz-categoria').textContent = 'Cultura general';
+        document.getElementById('quiz-pregunta').textContent = pregunta.q;
+
+        document.getElementById('quiz-opciones').innerHTML =
+            pregunta.o.map((opcion, i) => `
+                <button class="opcion-btn" onclick="checkQuiz(${i}, ${pregunta.c})">
+                    ${opcion}
+                </button>
+            `).join('');
+    }
+
+    function checkQuiz(seleccionada, correcta) {
+        const botones = document.querySelectorAll('.opcion-btn');
+
+        botones[correcta].classList.add('correcta');
+
+        if (seleccionada !== correcta) {
+            botones[seleccionada].classList.add('incorrecta');
+        }
+
+        setTimeout(() => {
+            nuevaPreguntaQuiz();
+        }, 1800);
+    }
+
+    function iniciarJuegoNumeros() {
+        APP.numSecreto = Math.floor(1000 + Math.random() * 9000).toString();
+
+        document.getElementById('num-display').textContent = APP.numSecreto;
+        document.getElementById('btn-start-num').style.display = 'none';
+
+        setTimeout(() => {
+            document.getElementById('num-display').textContent = '????';
+            document.getElementById('num-input-zone').style.display = 'block';
+            document.getElementById('num-respuesta').value = '';
+        }, 5000);
+    }
+
+    function verificarNumero() {
+        const respuesta = document.getElementById('num-respuesta').value;
+
+        if (respuesta === APP.numSecreto) {
+            alert('¡Excelente memoria! 🎉');
+        } else {
+            alert('Casi 😊 El número era ' + APP.numSecreto);
+        }
+
+        document.getElementById('num-input-zone').style.display = 'none';
+        document.getElementById('btn-start-num').style.display = 'block';
+        document.getElementById('num-display').textContent = '---';
+    }
+
+    function tabMemoria(tab) {
+        document.getElementById('mem-palabras').style.display =
+            tab === 'palabras' ? 'block' : 'none';
+
+        document.getElementById('mem-quiz').style.display =
+            tab === 'quiz' ? 'block' : 'none';
+
+        document.getElementById('mem-numeros').style.display =
+            tab === 'numeros' ? 'block' : 'none';
+
+        if (tab === 'palabras') nuevaPalabra();
+        if (tab === 'quiz') nuevaPreguntaQuiz();
+    }
+
+    function cargarCostumbresEjemplo() {
+        APP.costumbres = [
+            { n: 'Paseo matutino', hecha: false },
+            { n: 'Leer el periódico', hecha: false }
+        ];
+
+        localStorage.setItem('costumbres', JSON.stringify(APP.costumbres));
+        renderCostumbres();
+    }
+
+    function renderCostumbres() {
+        const contenedor = document.getElementById('lista-costumbres');
+
+        if (APP.costumbres.length === 0) {
+            contenedor.innerHTML = `
+                <div class="tarjeta">
+                    No hay costumbres todavía 🌼
+                </div>
+            `;
+            return;
+        }
+
+        contenedor.innerHTML = APP.costumbres.map((costumbre, i) => `
+            <div onclick="toggleCos(${i})"
+                 class="tarjeta"
+                 style="cursor:pointer; ${costumbre.hecha ? 'background:#E8F5EE;' : ''}">
+                ${costumbre.hecha ? '✅' : '⬜'} ${costumbre.n}
+            </div>
+        `).join('');
+
+        updateProgreso();
+    }
+
+    function toggleCos(i) {
+        APP.costumbres[i].hecha = !APP.costumbres[i].hecha;
+
+        localStorage.setItem('costumbres', JSON.stringify(APP.costumbres));
+        renderCostumbres();
+    }
+
+    function seleccionarAnimo(btn, emoji) {
+        document.querySelectorAll('.animo-btn').forEach(b => {
+            b.classList.remove('seleccionado');
+        });
+
+        btn.classList.add('seleccionado');
+
+        APP.animo.unshift({
+            e: emoji,
+            f: new Date().toLocaleDateString('es-ES')
+        });
+
+        APP.animo = APP.animo.slice(0, 5);
+
+        localStorage.setItem('animo', JSON.stringify(APP.animo));
+        renderAnimo();
+    }
+
+    function renderAnimo() {
+        const historial = document.getElementById('historial-animo');
+
+        historial.innerHTML = APP.animo.map(item => `
+            <span title="${item.f}">${item.e}</span>
+        `).join('');
+    }
+
+    document.getElementById('frase-texto').textContent =
+        'Cada día es una nueva oportunidad para sonreír.';
+
+    nuevaPalabra();
+    renderHorario();
+    renderCostumbres();
+    renderAnimo();
+    updateProgreso();
+</script>
+
+</body>
+</html>
